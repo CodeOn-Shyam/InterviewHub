@@ -56,16 +56,35 @@ InterviewFlow is a backend system designed to manage interview processes, includ
 ```
 
 InterviewFlow/
-│── src/main/java/
-│   ├── controller/
-│   ├── service/
-│   ├── repository/
-│   ├── model/
-│   ├── dto/
-│   └── config/
 │
-│── src/main/resources/
-│── README.md
+├── src/main/java/org/codeOn/InterviewFlow/
+│
+│   ├── auth/
+│   │   ├── controller/
+│   │   ├── service/
+│   │   ├── security/
+│   │   ├── dto/
+│   │   └── model/
+│   │
+│   ├── interview/
+│   │   ├── controller/
+│   │   ├── service/
+│   │   ├── repository/
+│   │   ├── model/
+│   │   └── dto/
+│   │
+│   ├── common/
+│   │   ├── exception/
+│   │   ├── response/
+│   │   └── util/
+│   │
+│   └── InterviewFlowApplication.java
+│
+├── src/main/resources/
+│   └── application.properties
+│
+└── README.md
+
 
 ```
 
