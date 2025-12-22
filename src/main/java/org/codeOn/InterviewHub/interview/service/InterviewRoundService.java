@@ -3,6 +3,9 @@ package org.codeOn.InterviewHub.interview.service;
 import org.codeOn.InterviewHub.interview.dto.RoundResponse;
 import org.codeOn.InterviewHub.interview.repository.InterviewDriveRepository;
 import org.codeOn.InterviewHub.interview.repository.InterviewRoundRepository;
+
+import java.util.List;
+
 import org.codeOn.InterviewHub.interview.dto.RoundRequest;
 import org.codeOn.InterviewHub.interview.model.InterviewRound;
 import org.codeOn.InterviewHub.interview.model.InterviewDrive;
@@ -16,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class InterviewRoundService {
     private final InterviewRoundRepository interviewRoundRepository;
     private final InterviewDriveRepository interviewDriveRepository;
-    public RoundResponse create(Long driveId,RoundRequest request) {
+    public RoundResponse createRound(Long driveId,RoundRequest request) {
         InterviewDrive interviewDrive = interviewDriveRepository.findById(driveId).orElseThrow(()-> new RuntimeException("Interview drive not found"));
         InterviewRound round = new InterviewRound();
         round.setName(request.name());
@@ -30,5 +33,11 @@ public class InterviewRoundService {
             savedRound.getSequence(),
             savedRound.getDescription()
         );
+    }
+    public List<InterviewRound> getRoundsByDriveId(Long driveId) {
+        return interviewRoundRepository.findByInterviewDriveId(driveId);
+    }
+    public void delete(Long roundId) {
+        interviewRoundRepository.deleteById(roundId);
     }
 }
