@@ -1,9 +1,9 @@
 package org.codeOn.InterviewHub.interview.controller;
 
+import org.codeOn.InterviewHub.common.response.ApiResponse;
 import org.codeOn.InterviewHub.interview.dto.RoundRequest;
 import org.codeOn.InterviewHub.interview.dto.RoundResponse;
 import org.codeOn.InterviewHub.interview.service.InterviewRoundService;
-import org.codeOn.InterviewHub.interview.model.InterviewRound;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,16 +28,17 @@ public class InterviewRoundController {
 
     @PostMapping("/drives/{driveId}/rounds")
     @PreAuthorize("hasRole('RECRUITER')")
-    public RoundResponse createInterviewRound(@PathVariable Long driveId,@Valid @RequestBody RoundRequest request) {
-        return interviewRoundService.createRound(driveId, request);
+    public ApiResponse<RoundResponse> createInterviewRound(@PathVariable Long driveId,@Valid @RequestBody RoundRequest request) {
+        return ApiResponse.success("Round created successfully",interviewRoundService.createRound(driveId, request));
     }
-    @GetMapping("drives/{driveId}/rounds")
-    public List<InterviewRound> getRounds(@PathVariable Long driveId){
-        return interviewRoundService.getRoundsByDriveId(driveId);
+    @GetMapping("/drives/{driveId}/rounds")
+    public ApiResponse<List<RoundResponse>> getRounds(@PathVariable Long driveId){
+        return ApiResponse.success("Rounds retrieved successfully",interviewRoundService.getRoundsByDriveId(driveId));
     }
     @DeleteMapping("/rounds/{roundId}")
     @PreAuthorize("hasRole('RECRUITER')")
-    public void delete(@PathVariable Long roundId){
+    public ApiResponse<?> delete(@PathVariable Long roundId){
         interviewRoundService.delete(roundId);
+        return ApiResponse.success("Round deleted successfully", null);
     }
 }

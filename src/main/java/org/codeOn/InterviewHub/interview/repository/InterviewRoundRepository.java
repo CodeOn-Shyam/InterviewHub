@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 public interface InterviewRoundRepository extends JpaRepository<InterviewRound, Long> {
-    List<InterviewRound> findByInterviewDriveId(Long driveId);
+    List<InterviewRound> findByInterviewDriveIdOrderBySequenceAsc(Long driveId);
 }
