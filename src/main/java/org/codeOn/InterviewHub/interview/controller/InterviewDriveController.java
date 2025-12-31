@@ -5,6 +5,7 @@ import org.codeOn.InterviewHub.interview.service.InterviewDriveService;
 
 import java.util.List;
 
+import org.codeOn.InterviewHub.common.response.ApiResponse;
 import org.codeOn.InterviewHub.interview.dto.CreateDriveRequest;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -30,29 +31,29 @@ public class InterviewDriveController {
 
     @PostMapping
     @PreAuthorize("hasRole('RECRUITER')")
-    public DriveResponse createDrive(@Valid @RequestBody CreateDriveRequest request) {
-        return interviewDriveService.create(request);
+    public ApiResponse<DriveResponse> createDrive(@Valid @RequestBody CreateDriveRequest request) {
+        return ApiResponse.success("Drive created successfully",interviewDriveService.create(request));
     }
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('RECRUITER')")
-    public DriveResponse updateDrive(@PathVariable Long id, @Valid @RequestBody UpdateDriveRequest request) {
-        return interviewDriveService.update(request,id);
+    public ApiResponse<DriveResponse> updateDrive(@PathVariable Long id, @Valid @RequestBody UpdateDriveRequest request) {
+        return ApiResponse.success("Drive updated successfully", interviewDriveService.update(request,id));
     }
 
     @GetMapping("/{id}")
-    public DriveResponse getDrive(@PathVariable Long id) {
-        return interviewDriveService.get(id);
+    public ApiResponse<DriveResponse> getDrive(@PathVariable Long id) {
+        return ApiResponse.success("Drive retrived succesfully",interviewDriveService.get(id));
     }
-
     @GetMapping
-    public List<InterviewDrive> getAllDrives() {
-        return interviewDriveService.getAll();
+    public ApiResponse<List<InterviewDrive>> getAllDrives() {
+        return ApiResponse.success("Drives retrieved successfully", interviewDriveService.getAll());
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('RECRUITER')")
-    public void deleteDrive(@PathVariable Long id) {
+    public ApiResponse<?> deleteDrive(@PathVariable Long id) {
         interviewDriveService.delete(id);
+        return ApiResponse.success("Drive deleted successfully", null);
     }
     
 }

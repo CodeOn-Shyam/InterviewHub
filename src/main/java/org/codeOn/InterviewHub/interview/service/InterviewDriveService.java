@@ -1,6 +1,8 @@
 package org.codeOn.InterviewHub.interview.service;
 import org.springframework.stereotype.Service;
 
+import org.codeOn.InterviewHub.common.exception.ResourceNotFoundException;
+
 import org.codeOn.InterviewHub.interview.repository.InterviewDriveRepository;
 import org.codeOn.InterviewHub.interview.dto.CreateDriveRequest;
 import org.codeOn.InterviewHub.interview.dto.DriveResponse;
@@ -29,7 +31,7 @@ public class InterviewDriveService {
     }
     public DriveResponse update(UpdateDriveRequest request, Long id){
         InterviewDrive drive = interviewDriveRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Drive not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Interview Drive not found"));
         drive.setTitle(request.title());
         drive.setDescription(request.description());
         drive.setDate(request.date());
@@ -43,7 +45,7 @@ public class InterviewDriveService {
     }
     public DriveResponse get(Long id){
         InterviewDrive drive =  interviewDriveRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Drive not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Interview Drive not found"));
             return new DriveResponse(
                 drive.getId(),
                 drive.getTitle(),
@@ -55,6 +57,9 @@ public class InterviewDriveService {
         return interviewDriveRepository.findAll();
     }
     public void delete(Long id){
+        if(!interviewDriveRepository.existsById(id)){
+            throw new ResourceNotFoundException("Interview Drive Not found");
+        }
         interviewDriveRepository.deleteById(id);
     }
 }
